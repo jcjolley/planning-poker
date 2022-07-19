@@ -1,4 +1,8 @@
 import { Component } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import { combineLatest } from 'rxjs'
+import { map, tap } from 'rxjs/operators'
+import { CwPokerApi } from '../services/cw-poker.api'
 
 @Component({
     selector: 'poking-room',
@@ -7,4 +11,23 @@ import { Component } from '@angular/core'
 })
 export class PokingRoomComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
+    roomId: string | null = null;
+
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly cwPokerApi: CwPokerApi,
+    ) {
+        const $roomId = route.params.pipe(
+            map(params => params['roomId']),
+            tap(roomId => (this.roomId = roomId)),
+        )
+
+        combineLatest([$roomId, cwPokerApi.$webSocket]).pipe(
+            tap(([roomId, response]) => this.processResponse(roomId, response)),
+        ).subscribe()
+    }
+
+    processResponse(roomId: string, response: unknown) {
+        console.log(response)
+    }
 }

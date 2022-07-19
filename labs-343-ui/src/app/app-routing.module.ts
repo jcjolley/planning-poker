@@ -7,7 +7,7 @@ import { PokingRoomComponent } from "./poking-room/poking-room.component"
 const routes: Routes = [
   { path: 'login', component: MainViewComponent },
   { path: 'home-page', component: HomePageComponent },
-  { path: 'poking-room', component: PokingRoomComponent },
+  { path: 'poking-room/:roomId', component: PokingRoomComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ]
 
@@ -16,4 +16,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

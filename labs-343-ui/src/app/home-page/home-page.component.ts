@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
+import { Router } from '@angular/router'
+import { of } from 'rxjs'
+import { switchMap, tap } from 'rxjs/operators'
+import { CwPokerApi } from '../services/cw-poker.api'
+import { UserService } from '../services/user-service.service'
 
 @Component({
   selector: 'home-page',
@@ -9,15 +14,32 @@ import { FormControl } from '@angular/forms'
 export class HomePageComponent implements OnInit {
 
   roomControl = new FormControl(null);
-  constructor() { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly cwPokerApi: CwPokerApi,
+    private readonly router: Router,
+  ) { }
 
   ngOnInit(): void {
   }
 
-  createRoom() {}
+  createRoom() {
+    if (this.userService.userName) {
+      this.cwPokerApi.createRoom(this.userService.userName).pipe(
+        switchMap(roomId => this.joinRoom(roomId)),
+      ).subscribe()
+    }
+  }
 
-  joinRoom() {
-    
+  joinRoom(roomId: string) {
+    if (this.userService.userName) {
+      return this.cwPokerApi.joinRoom(this.userService.userName, roomId).pipe(
+        tap(() => {
+          this.router.navigate([`poking-room/${roomId}`])
+        }),
+      )
+    }
+    return of(null)
   }
 
 }
