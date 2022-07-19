@@ -1,1 +1,25 @@
-<div>{{ title }}</div>
+<div class="container-fluid m-3">
+    <div class="page-title">{{ title }}</div>
+    <nf-form-group>
+        <nf-form-control
+          label="Username"
+          hint="Username"
+          compact="true"
+          requiredLabel="Username is required."
+          for="usernameControl"
+        >
+          <input
+            type="text"
+            id="usernameControl"
+            class="form-control"
+            [formControl]="usernameControl"
+          />
+        </nf-form-control>
+    </nf-form-group>
+    <button nf-button="primary" 
+        (click)="logIn()"
+        [disabled]="!usernameControl?.value"
+        class="mt-2"
+        >Log In
+    </button>
+</div>
