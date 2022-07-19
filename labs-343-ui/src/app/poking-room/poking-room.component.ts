@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-import { ParticipantComponent } from "./participant/participant.component";
 
 @Component({
     selector: 'poking-room',
