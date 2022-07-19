@@ -30,14 +30,15 @@ export class CwPokerApi {
     return this.httpClient.get<ExampleData>(this.baseUrl)
   }
 
-  createRoom(userName: string) {
+  createRoom(userId: string) {
     const createRoomEvent: CreateRoomEvent = {
       type: 'CREATE_ROOM',
-      data: {
-        userId: userName,
-      },
+      data: { userId, },
     }
-    this.actualWebSocket.next(JSON.stringify(createRoomEvent))
+    this.actualWebSocket.next(JSON.stringify({
+      action: 'sendmessage',
+      data: createRoomEvent,
+    }))
     return this.actualWebSocket.asObservable()
   }
 
@@ -46,7 +47,10 @@ export class CwPokerApi {
       type: 'JOIN_ROOM',
       data: { roomId, userId, }
     }
-    this.actualWebSocket.next(JSON.stringify(joinRoomEvent))
+    this.actualWebSocket.next(JSON.stringify({
+      action: 'sendmessage',
+      data: joinRoomEvent,
+    }))
     return this.actualWebSocket.asObservable()
   }
 }

@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core'
+import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import {combineLatest, Subscription} from 'rxjs'
+import { combineLatest, Subscription } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
 import { PointValue } from '../objects/PointValue'
+import { Room } from '../objects/Room'
 import { User } from '../objects/user'
 import { CwPokerApi } from '../services/cw-poker.api'
 
@@ -13,11 +14,10 @@ import { CwPokerApi } from '../services/cw-poker.api'
 })
 export class PokingRoomComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
-    @Input() thisUser: string;
     roomId: string | null = null;
-    users: User[] = [{name: "Monte", estimate: PointValue.ONE}, {name: "Ryan", estimate: PointValue.INFINITY},
-        {name: "Ridzky", estimate: PointValue.ONE}, {name: "Jolley", estimate: PointValue.INFINITY}];
-    roomSub: Subscription;
+    users: User[] = [{ name: "Monte", estimate: PointValue.ONE }, { name: "Ryan", estimate: PointValue.INFINITY },
+    { name: "Ridzky", estimate: PointValue.ONE }, { name: "Jolley", estimate: PointValue.INFINITY }];
+    roomSub: Subscription
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -28,21 +28,21 @@ export class PokingRoomComponent {
             tap(roomId => (this.roomId = roomId)),
         )
 
-        // this.roomSub = combineLatest([$roomId, this.cwPokerApi.$webSocket]).pipe(
-        //     tap(([roomId, response]) => this.processResponse(roomId, response)),
-        // ).subscribe();
+        this.roomSub = combineLatest([$roomId, this.cwPokerApi.$webSocket]).pipe(
+            tap(([roomId, response]) => this.processResponse(response)),
+        ).subscribe()
     }
 
-    processResponse(roomId: string, response: unknown) {
-        console.log(response);
+    processResponse(room: Room) {
+        console.log(room)
     }
 
     ngOnDestroy() {
-        this.killWebSocket();
+        this.killWebSocket()
     }
 
     killWebSocket() {
         if (this.roomSub && !this.roomSub.closed)
-            this.roomSub.unsubscribe();
+            this.roomSub.unsubscribe()
     }
 }
