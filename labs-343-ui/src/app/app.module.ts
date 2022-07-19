@@ -8,9 +8,11 @@ import { PermissionModule, ToastModule } from '@northfork/ng-basics'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { MainViewComponent } from './main-view/main-view.component'
+import { PokingRoomComponent } from "./poking-room/poking-room.component"
+import { ParticipantComponent } from "./poking-room/participant/participant.component"
 
 @NgModule({
-  declarations: [AppComponent, MainViewComponent],
+  declarations: [AppComponent, MainViewComponent,PokingRoomComponent,ParticipantComponent],
   imports: [
     // Angular Modules
     BrowserModule,
