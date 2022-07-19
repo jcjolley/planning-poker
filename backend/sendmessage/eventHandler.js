@@ -1,5 +1,5 @@
-import {broadcast} from "./broadcast";
-import {getRoom, joinRoom, selectCase, setFlipped} from "./dao";
+const {broadcast} = require("./broadcast");
+const {getRoom, joinRoom, selectCase, setFlipped} = require("./dao");
 
 const EventType = {
     "JOIN_ROOM": "JOIN_ROOM",
@@ -99,4 +99,5 @@ const handleEvent = async (event, context) => {
     )
 }
 
-export {EventType, handleEvent}
+exports.EventType = EventType
+exports.handleEvent = handleEvent

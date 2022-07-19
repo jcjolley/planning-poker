@@ -1,4 +1,4 @@
-import {disconnect, getConnectionIdsInRoom} from "./dao";
+const {disconnect, getConnectionIdsInRoom} = require("./dao");
 
 const broadcast = async ({ apigwManagementApi, roomId }, payload) => {
 
@@ -18,5 +18,4 @@ const broadcast = async ({ apigwManagementApi, roomId }, payload) => {
     await Promise.all(postCalls);
 }
 
-
-export { broadcast }
+exports.broadcast = broadcast

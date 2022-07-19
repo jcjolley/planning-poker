@@ -169,17 +169,15 @@ const createRoom = async (userId, connectionId) => {
     return newRoomId
 }
 
-export {
-    getRoom,
-    addEmptyUserToRoom,
-    setConnectionId,
-    setEstimate,
-    setJiraCase,
-    joinRoom,
-    selectCase,
-    leaveRoom,
-    getConnectionIdsInRoom,
-    disconnect,
-    setFlipped,
-    createRoom,
-}
+exports.getRoom = getRoom
+exports.addEmptyUserToRoom = addEmptyUserToRoom
+exports.setConnectionId = setConnectionId
+exports.setEstimate = setEstimate
+exports.setJiraCase = setJiraCase
+exports.joinRoom = joinRoom
+exports.selectCase = selectCase
+exports.leaveRoom = leaveRoom
+exports.getConnectionIdsInRoom = getConnectionIdsInRoom
+exports.disconnect = disconnect
+exports.setFlipped = setFlipped
+exports.createRoom = createRoom
