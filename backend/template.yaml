@@ -102,10 +102,10 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-      - AttributeName: "connectionId"
+      - AttributeName: "roomId"
         AttributeType: "S"
       KeySchema:
-      - AttributeName: "connectionId"
+      - AttributeName: "roomId"
         KeyType: "HASH"
       ProvisionedThroughput:
         ReadCapacityUnits: 5
