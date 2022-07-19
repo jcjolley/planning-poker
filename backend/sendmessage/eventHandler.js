@@ -10,7 +10,7 @@ const EventType = {
  * There are four kinds of events.
  * 1. SELECT_CASE
  * {
- *     type: EventType
+ *     type: "SELECT_CASE"
  *     data: {
  *         jiraCase: string
  *         roomId: string
@@ -18,7 +18,7 @@ const EventType = {
  * }
  * 2. JOIN_ROOM
  * {
- *     type: EventType
+ *     type: "JOIN_ROOM"
  *     data: {
  *         userId: string
  *         roomId: string
@@ -26,7 +26,7 @@ const EventType = {
  * }
  * 3. SUBMIT_ESTIMATION
  * {
- *     type: EventType
+ *     type: "SUBMIT_ESTIMATION"
  *     data: {
  *         userId: string
  *         roomId: string
@@ -36,7 +36,7 @@ const EventType = {
  * }
  * 4. REVEAL_ESTIMATION
  * {
- *     type: EventType
+ *     type: "REVEAL_ESTIMATION"
  *     data: {
  *         roomId: string
  *     }
