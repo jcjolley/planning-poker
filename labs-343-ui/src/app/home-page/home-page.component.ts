@@ -14,4 +14,10 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  createRoom() {}
+
+  joinRoom() {
+    
+  }
+
 }
