@@ -4,19 +4,7 @@
 const AWS = require('aws-sdk');
 const {handleEvent} = require("./eventHandler");
 
-const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: process.env.AWS_REGION });
-
-const { TABLE_NAME } = process.env;
-
 exports.handler = async websocketMessage => {
-  let connectionData;
-  
-  try {
-    connectionData = await ddb.scan({ TableName: TABLE_NAME, ProjectionExpression: 'connectionId' }).promise();
-  } catch (e) {
-    return { statusCode: 500, body: e.stack };
-  }
-  
   const apigwManagementApi = new AWS.ApiGatewayManagementApi({
     apiVersion: '2018-11-29',
     endpoint: websocketMessage.requestContext.domainName + '/' + websocketMessage.requestContext.stage
@@ -24,7 +12,7 @@ exports.handler = async websocketMessage => {
   
   try {
     const event = JSON.parse(websocketMessage.body).data;
-    handleEvent(event)
+    handleEvent(event, { apigwManagementApi, connectionId: websocketMessage.requestContext.connectionId })
   } catch (e) {
     return { statusCode: 500, body: e.stack };
   }

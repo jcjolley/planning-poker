@@ -1,14 +1,14 @@
+import {disconnect, getConnectionIdsInRoom} from "./dao";
 
-const broadcast = async ({ apigwManagementApi, tableName, connectionData, roomId }, payload) => {
+const broadcast = async ({ apigwManagementApi, roomId }, payload) => {
 
-    const postCalls = connectionData.Items
-        .map(async ({ connectionId }) => {
+    const postCalls = getConnectionIdsInRoom(roomId).map(async (connectionId) => {
         try {
             await apigwManagementApi.postToConnection({ ConnectionId: connectionId, Data: payload }).promise();
         } catch (e) {
             if (e.statusCode === 410) {
                 console.log(`Found stale connection, deleting ${connectionId}`);
-                await ddb.delete({ TableName: tableName, Key: { connectionId } }).promise();
+                await disconnect(connectionId, roomId)
             } else {
                 throw e;
             }
