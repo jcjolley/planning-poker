@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import {Component, Input} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {combineLatest, Subscription} from 'rxjs'
 import { map, tap } from 'rxjs/operators'
@@ -13,9 +13,10 @@ import { CwPokerApi } from '../services/cw-poker.api'
 })
 export class PokingRoomComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
+    @Input() thisUser: string;
     roomId: string | null = null;
-    users: User[] = [{name: "Monte", pointValue: PointValue.ONE}, {name: "Ryan", pointValue: PointValue.INFINITY},
-        {name: "Ridzky", pointValue: PointValue.ONE}, {name: "Jolley", pointValue: PointValue.INFINITY}];
+    users: User[] = [{name: "Monte", estimate: PointValue.ONE}, {name: "Ryan", estimate: PointValue.INFINITY},
+        {name: "Ridzky", estimate: PointValue.ONE}, {name: "Jolley", estimate: PointValue.INFINITY}];
     roomSub: Subscription;
 
     constructor(
@@ -27,9 +28,9 @@ export class PokingRoomComponent {
             tap(roomId => (this.roomId = roomId)),
         )
 
-        this.roomSub = combineLatest([$roomId, this.cwPokerApi.$webSocket]).pipe(
-            tap(([roomId, response]) => this.processResponse(roomId, response)),
-        ).subscribe();
+        // this.roomSub = combineLatest([$roomId, this.cwPokerApi.$webSocket]).pipe(
+        //     tap(([roomId, response]) => this.processResponse(roomId, response)),
+        // ).subscribe();
     }
 
     processResponse(roomId: string, response: unknown) {
