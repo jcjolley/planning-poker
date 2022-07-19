@@ -1,4 +1,6 @@
-import { Component } from '@angular/core'
+import {Component} from '@angular/core'
+import {User} from "../objects/user";
+import {PointValue} from "../objects/PointValue";
 
 @Component({
     selector: 'poking-room',
@@ -7,4 +9,5 @@ import { Component } from '@angular/core'
 })
 export class PokingRoomComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
+    users: User[] = [{name: "Monte", pointValue: PointValue.EIGHT}];
 }

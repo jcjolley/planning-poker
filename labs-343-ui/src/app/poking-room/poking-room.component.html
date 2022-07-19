@@ -1,4 +1,5 @@
-<div id="grad1" class="container-fluid">
+
+<div id="grad1" class="container-fluid" *ngFor="let user in users">
     <span>Poking Room</span>
-    <participant></participant>
+    <participant [userName]="user.name" [pointValue]="user.pointValue"></participant>
 </div>

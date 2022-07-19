@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import {Component, Input} from '@angular/core'
+import {PointValue} from "../../objects/PointValue"
 
 @Component({
     selector: 'participant',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core'
 })
 export class ParticipantComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
+    @Input() userName: string;
+    @Input() pointValue: PointValue;
+
 }
