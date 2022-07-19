@@ -22,26 +22,9 @@ exports.handler = async websocketMessage => {
     endpoint: websocketMessage.requestContext.domainName + '/' + websocketMessage.requestContext.stage
   });
   
-  const event = JSON.parse(websocketMessage.body).data;
-
-  handleEvent(event)
-
-  // TODO modify this and call it when we need to broadcast (e.g., SUBMIT_ESTIMATION and REVEAL_ESTIMATION)
-  const postCalls = connectionData.Items.map(async ({ connectionId }) => {
-    try {
-      await apigwManagementApi.postToConnection({ ConnectionId: connectionId, Data: event }).promise();
-    } catch (e) {
-      if (e.statusCode === 410) {
-        console.log(`Found stale connection, deleting ${connectionId}`);
-        await ddb.delete({ TableName: TABLE_NAME, Key: { connectionId } }).promise();
-      } else {
-        throw e;
-      }
-    }
-  });
-  
   try {
-    await Promise.all(postCalls);
+    const event = JSON.parse(websocketMessage.body).data;
+    handleEvent(event)
   } catch (e) {
     return { statusCode: 500, body: e.stack };
   }

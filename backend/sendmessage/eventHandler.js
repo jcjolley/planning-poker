@@ -1,3 +1,4 @@
+import {broadcast} from "./broadcast";
 
 const EventType = {
     "JOIN_ROOM": "JOIN_ROOM",
@@ -44,19 +45,27 @@ const EventType = {
  *
  * @param event
  */
-const handleEvent = (event) => {
+const handleEvent = (event, context) => {
     switch (event.type) {
         case EventType.SELECT_CASE:
             console.log(`Selecting jira case ${event.data.jiraCase} in room ${event.data.roomId}`)
             break;
         case EventType.JOIN_ROOM:
             console.log(`User ${event.data.userId} is joining room ${event.data.roomId}`)
+            broadcast(context, {message: `User ${event.data.userId} has joined ${event.data.roomId}`})
             break;
         case EventType.SUBMIT_ESTIMATION:
             console.log(`Submitting estimation ${event.data.estimate} to room ${event.data.roomId} for user ${event.data.userId}`)
+            broadcast(context, {
+                data: {
+                    user: event.data.userId,
+                    estimate: event.data.estimate
+                }
+            })
             break;
         case EventType.REVEAL_ESTIMATION:
             console.log(`Revealing estimations for ${event.data.roomId}`)
+            broadcast(context, {message: `User ${event.data.userId} estimated ${event.data.estimate} for ${event.data.jiraCase} in room ${event.data.roomId}`})
             break;
         default:
             console.error(`Unknown event type ${event.type}`)
