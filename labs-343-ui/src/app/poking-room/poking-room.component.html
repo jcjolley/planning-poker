@@ -1,4 +1,6 @@
-<span>Poking Room</span>
-<div id="grad1" class="container-fluid" *ngFor="let user of users">
-    <participant [user]="user" ></participant>
+<h1>Poking Room</h1>
+<div class="row">
+    <div id="grad1" class="container-fluid col-sm" *ngFor="let user of users">
+        <participant [user]="user" ></participant>
+    </div>
 </div>
