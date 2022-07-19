@@ -1,0 +1,8 @@
+@use '@northfork/ag-grid/theme';
+@use '@northfork/branding/styles';
+/* You can add global styles to this file, and also import other style files */
+@import '~@mdi/font/css/materialdesignicons.min.css';
+@import '~ngx-toastr/toastr.css';
+
+// Should stay on the bottom so that other libraries can be overridden
+@include theme.northfork();

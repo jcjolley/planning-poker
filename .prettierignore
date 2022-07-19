@@ -1,0 +1,9 @@
+node_modules/ 
+dist/ 
+build/
+coverage/
+pacts/
+.yarn/
+.scannerwork/
+.nyc_output/
+report.*.json

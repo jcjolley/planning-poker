@@ -1,0 +1,8 @@
+{
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "report-dir": "./build/cypress-coverage",
+    "include": [
+      "**/*.ts"
+    ],
+    "temp-dir": ".nyc_output"
+}
