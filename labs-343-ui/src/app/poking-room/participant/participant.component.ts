@@ -9,5 +9,4 @@ import {User} from "../../objects/user";
 })
 export class ParticipantComponent {
     @Input() user: User;
-
 }

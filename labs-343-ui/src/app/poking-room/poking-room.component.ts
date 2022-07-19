@@ -9,5 +9,5 @@ import {PointValue} from "../objects/PointValue";
 })
 export class PokingRoomComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
-    users: User[] = [{name: "Monte", pointValue: PointValue.EIGHT}];
+    users: User[] = [{name: "Monte", pointValue: PointValue.ONE}, {name: "Ryan", pointValue: PointValue.INFINITY}];
 }
