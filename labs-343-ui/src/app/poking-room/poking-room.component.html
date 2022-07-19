@@ -1,5 +1,5 @@
 <div id="grad1" class="container-fluid">
     <span>Poking Room</span>
     <span>{{ roomId }}</span>
-    <participant></participant>
-</div>
+    <participant *ngFor="let user of users" [user]="user" ></participant>
+<span>Poking Room</span>
