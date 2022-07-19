@@ -7,10 +7,11 @@ import { MockNgConfigModule } from '@northfork/mock-ng-config'
 import { PermissionModule, ToastModule } from '@northfork/ng-basics'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { MainViewComponent } from './main-view/main-view.component'
+import { MainViewComponent } from './main-view/main-view.component';
+import { HomePageComponent } from './src/app/home-page/home-page.component'
 
 @NgModule({
-  declarations: [AppComponent, MainViewComponent],
+  declarations: [AppComponent, MainViewComponent, HomePageComponent],
   imports: [
     // Angular Modules
     BrowserModule,
