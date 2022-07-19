@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { ParticipantComponent } from "./participant/participant.component";
 
 @Component({
     selector: 'poking-room',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core'
     styleUrls: ['./poking-room.component.scss'],
 })
 export class PokingRoomComponent {
-    title = 'Main View!'
+    //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
 }
