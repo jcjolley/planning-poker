@@ -1,4 +1,6 @@
-import { Component } from '@angular/core'
+import {Component, Input} from '@angular/core'
+import {PointValue} from "../../objects/PointValue"
+import {User} from "../../objects/user";
 
 @Component({
     selector: 'participant',
@@ -6,12 +8,7 @@ import { Component } from '@angular/core'
     styleUrls: ['./participant.component.scss'],
 })
 export class ParticipantComponent {
-    //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
-
-    constructor(
-        private readonly userName: string
-    ) {
-
-    }
+    @Input() user: User;
+    @Input() isThisUser: boolean;
 
 }

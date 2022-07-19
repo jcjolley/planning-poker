@@ -1,0 +1,32 @@
+<div class="container-fluid m-3">
+    <h2 class="page-title">
+        CW Planning Poker
+    </h2>
+    <div class="m-3 d-inline">
+        <nf-form-control
+            label="Join Room"
+            hint="Join a room with an existing code"
+            compact="true"
+            for="roomControl"
+            class="w-50"
+        >
+            <input
+            type="text"
+            id="roomControl"
+            class="form-control"
+            [formControl]="roomControl"
+            />
+        </nf-form-control>
+        <button nf-icon-button icon="play-circle"
+            ngbTooltip="Join Room"
+            (click)="joinRoom(roomControl.value)">
+        </button>
+    </div>
+
+    <button nf-button="success"
+            icon="plus"
+            (click)="createRoom()"
+            class="mt-2"
+            >Create Room
+        </button>
+</div>
