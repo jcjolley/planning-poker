@@ -7,7 +7,4 @@ import { Component } from '@angular/core'
 })
 export class ParticipantComponent {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
-
-    constructor() {}
-
 }
