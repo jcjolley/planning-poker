@@ -1,6 +1,6 @@
 {
   "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
   "codemetrics.nodeconfiguration.CaseClause": 0,
   "codemetrics.basics.DecorationModeEnabled": false,
   "editor.codeActionsOnSave": {

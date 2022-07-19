@@ -2,27 +2,26 @@
     <h2 class="page-title">
         CW Planning Poker
     </h2>
-    
-    <nf-form-group>
+    <div class="m-3 d-inline">
         <nf-form-control
-          label="Join a room with an existing room code"
-          hint="Room Code"
-          compact="true"
-          for="roomControl"
+            label="Join Room"
+            hint="Join a room with an existing code"
+            compact="true"
+            for="roomControl"
+            class="w-50"
         >
-          <input
+            <input
             type="text"
             id="roomControl"
             class="form-control"
             [formControl]="roomControl"
-          />
+            />
         </nf-form-control>
-        <button nf-button="primary"
-            icon="play-circle"
-            (click)="joinRoom()"
-            class="mt-2">
+        <button nf-icon-button icon="play-circle"
+            ngbTooltip="Join Room"
+            (click)="joinRoom()">
         </button>
-    </nf-form-group>
+    </div>
 
     <button nf-button="success"
             icon="plus"
