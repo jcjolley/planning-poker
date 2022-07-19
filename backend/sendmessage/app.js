@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: MIT-0
 
 const AWS = require('aws-sdk');
+const {handleEvent} = require("./eventHandler");
 
 const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: process.env.AWS_REGION });
 
 const { TABLE_NAME } = process.env;
 
-exports.handler = async event => {
+exports.handler = async websocketMessage => {
   let connectionData;
   
   try {
@@ -18,14 +19,17 @@ exports.handler = async event => {
   
   const apigwManagementApi = new AWS.ApiGatewayManagementApi({
     apiVersion: '2018-11-29',
-    endpoint: event.requestContext.domainName + '/' + event.requestContext.stage
+    endpoint: websocketMessage.requestContext.domainName + '/' + websocketMessage.requestContext.stage
   });
   
-  const postData = JSON.parse(event.body).data;
-  
+  const event = JSON.parse(websocketMessage.body).data;
+
+  handleEvent(event)
+
+  // TODO modify this and call it when we need to broadcast (e.g., SUBMIT_ESTIMATION and REVEAL_ESTIMATION)
   const postCalls = connectionData.Items.map(async ({ connectionId }) => {
     try {
-      await apigwManagementApi.postToConnection({ ConnectionId: connectionId, Data: postData }).promise();
+      await apigwManagementApi.postToConnection({ ConnectionId: connectionId, Data: event }).promise();
     } catch (e) {
       if (e.statusCode === 410) {
         console.log(`Found stale connection, deleting ${connectionId}`);
