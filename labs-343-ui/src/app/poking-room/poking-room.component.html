@@ -1,6 +1,12 @@
-<h1>Poking Room</h1>
-<div class="row">
-    <div id="grad1" class="container-fluid col-sm" *ngFor="let user of users">
-        <participant [user]="user" ></participant>
-    </div>
+<div id="grad1" class="container-fluid row">
+    <span>Poking Room</span>
+    <span>{{ roomId }}</span>
+    <participant *ngFor="let user of users" [user]="user" class="col-sm"></participant>
 </div>
+
+<button nf-button="success"
+        icon="plus"
+        (click)="killWebSocket()"
+        class="mt-2"
+>Kill Websocket
+</button>
