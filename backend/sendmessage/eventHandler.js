@@ -3,7 +3,8 @@ const EventType = {
     "JOIN_ROOM": "JOIN_ROOM",
     "SELECT_CASE": "SELECT_CASE",
     "SUBMIT_ESTIMATION": "SUBMIT_ESTIMATION",
-    "REVEAL_ESTIMATION": "REVEAL_ESTIMATION"
+    "REVEAL_ESTIMATION": "REVEAL_ESTIMATION",
+    "CREATE_ROOM": "CREATE_ROOM",
 }
 
 /***
@@ -57,6 +58,9 @@ const handleEvent = (event) => {
             break;
         case EventType.REVEAL_ESTIMATION:
             console.log(`Revealing estimations for ${event.data.roomId}`)
+            break;
+        case EventType.CREATE_ROOM:
+            console.log(`Creating room for ${event.data.userId}`)
             break;
         default:
             console.error(`Unknown event type ${event.type}`)
