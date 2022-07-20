@@ -1,6 +1,6 @@
 export interface Room {
     roomId: string
-    users: {
+    participants: {
         [userId: string]: {
             connectionId: string
             estimation: number | null

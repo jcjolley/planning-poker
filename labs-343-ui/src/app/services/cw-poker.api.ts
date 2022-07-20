@@ -1,14 +1,18 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, Observer, of, Subject, Subscription } from 'rxjs'
-import { catchError, map } from 'rxjs/operators'
+import {catchError, map, shareReplay} from 'rxjs/operators'
 import { CreateRoomEvent } from '../objects/CreateRoomEvent'
 import { JoinRoomEvent } from '../objects/JoinRoomEvent'
 import { Room } from '../objects/Room'
+import {PointValue} from "../objects/PointValue";
+import {SubmitEstimationEvent} from "../objects/SubmitEstimationEvent";
+import {SetJiraCaseEvent} from "../objects/SetJiraCaseEvent";
 
 export interface ExampleData {
   exampleField: string
 }
+
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +31,7 @@ export class CwPokerApi {
         roomId: '0',
       } as Room)
     }),
+    shareReplay(1),
   );
   public roomSub: Subscription | null = null;
 
@@ -51,6 +56,45 @@ export class CwPokerApi {
     const message = {
       action: 'sendmessage',
       data: joinRoomEvent,
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  setEstimation(userId: string, roomId: string, jiraCase: string, estimate: PointValue) {
+    const submitEstimationEvent: SubmitEstimationEvent = {
+      type: 'SUBMIT_ESTIMATION',
+      data: { userId, roomId, jiraCase, estimate, }
+    }
+    const message = {
+      action: 'sendmessage',
+      data: submitEstimationEvent,
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  setJiraCase(roomId: string, jiraCase: string) {
+    const setJiraCaseEvent: SetJiraCaseEvent = {
+      type: 'SELECT_CASE',
+      data: { roomId, jiraCase, }
+    }
+    const message = {
+      action: 'sendmessage',
+      data: setJiraCaseEvent,
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  revealEstimations(roomId: string) {
+    const setJiraCaseEvent: SetJiraCaseEvent = {
+      type: 'SELECT_CASE',
+      data: { roomId, jiraCase, }
+    }
+    const message = {
+      action: 'sendmessage',
+      data: setJiraCaseEvent,
     }
     this.actualWebSocket.next(message as unknown as MessageEvent)
     return this.$webSocket

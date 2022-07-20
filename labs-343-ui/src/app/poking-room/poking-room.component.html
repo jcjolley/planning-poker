@@ -1,6 +1,6 @@
 <div id="grad1" class="container-fluid row">
     <span>Poking Room</span>
     <span>{{ roomId }}</span>
-    <participant *ngFor="let user of users" [user]="user" [isThisUser]="user.name === thisUser" class="col-sm"></participant>
+    <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
 </div>
 

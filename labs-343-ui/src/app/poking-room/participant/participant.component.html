@@ -1,30 +1,39 @@
+<!--<div class="card text-center participant">-->
+<!--    <div class="card-header">-->
+<!--        {{user.name}}-->
+<!--    </div>-->
+<!--    <div *ngIf="flipped;then estimate_selector else estimate_display">here is ignored</div>-->
+<!--    <ng-template #estimate_selector class="card-body">-->
+<!--        <nf-form-control label="Editable Field">-->
+<!--            <ng-select-->
+<!--                    [(ngModel)]="user.estimate"-->
+<!--                    [items]="selectOptions"-->
+<!--                    bindLabel="name"-->
+<!--                    placeholder="Select an estimate"-->
+<!--                    [clearable]="true"-->
+<!--            >-->
+<!--                <ng-template ng-option-tmp let-item="item">-->
+<!--                    <div-->
+<!--                            [ngbTooltip]="item != null ? item.name : ''"-->
+<!--                            container="body"-->
+<!--                            class="ellipsis"-->
+<!--                    >-->
+<!--                        {{ item != null ? item.name : "" }}-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </ng-select>-->
+<!--        </nf-form-control>-->
+<!--    </ng-template>-->
+<!--    <ng-template #estimate_display class="card-body">-->
+<!--        {{user.estimate}}-->
+<!--    </ng-template>-->
+<!--</div>-->
+
 <div class="card text-center participant">
     <div class="card-header">
         {{user.name}}
     </div>
-    <div *ngIf="isThisUser;then estimate_selector else estimate_display">here is ignored</div>
-    <ng-template #estimate_selector class="card-body">
-        <nf-form-control label="Editable Field">
-            <ng-select
-                    [(ngModel)]="user.estimate"
-                    [items]="selectOptions"
-                    bindLabel="name"
-                    placeholder="Select an estimate"
-                    [clearable]="true"
-            >
-                <ng-template ng-option-tmp let-item="item">
-                    <div
-                            [ngbTooltip]="item != null ? item.name : ''"
-                            container="body"
-                            class="ellipsis"
-                    >
-                        {{ item != null ? item.name : "" }}
-                    </div>
-                </ng-template>
-            </ng-select>
-        </nf-form-control>
-    </ng-template>
-    <ng-template #estimate_display class="card-body">
+    <div *ngIf="flipped">
         {{user.estimate}}
-    </ng-template>
+    </div>
 </div>
