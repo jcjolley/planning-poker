@@ -25,7 +25,8 @@ export class PokingRoomComponent {
     ];
     roomSub: Subscription | null
     thisUser: string | null
-    flipped: boolean = false
+    flipped = false
+    jiraCase: string | null
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -57,7 +58,7 @@ export class PokingRoomComponent {
                 } as User
             }
         )
-
+        this.jiraCase = room.jiraCase
         this.flipped = room.flipped
     }
 
@@ -71,6 +72,14 @@ export class PokingRoomComponent {
     }
 
     setEstimation(estimation: PointValue) {
-        this.setEstimation(estimation)
+        if (this.roomId && this.thisUser && this.jiraCase) {
+            this.cwPokerApi.setEstimation(this.thisUser, this.roomId, this.jiraCase, estimation)
+        }
+    }
+
+    setJiraCase(jiraCase: string) {
+        if (this.roomId) {
+            this.cwPokerApi.setJiraCase(this.roomId, jiraCase)
+        }
     }
 }

@@ -8,6 +8,7 @@ import { Room } from '../objects/Room'
 import {PointValue} from "../objects/PointValue";
 import {SubmitEstimationEvent} from "../objects/SubmitEstimationEvent";
 import {SetJiraCaseEvent} from "../objects/SetJiraCaseEvent";
+import {RevealEstimationsEvent} from "../objects/RevealEstimationsEvent";
 
 export interface ExampleData {
   exampleField: string
@@ -88,13 +89,13 @@ export class CwPokerApi {
   }
 
   revealEstimations(roomId: string) {
-    const setJiraCaseEvent: SetJiraCaseEvent = {
-      type: 'SELECT_CASE',
-      data: { roomId, jiraCase, }
+    const revealEstimationsEvent: RevealEstimationsEvent = {
+      type: 'REVEAL_ESTIMATION',
+      data: { roomId, }
     }
     const message = {
       action: 'sendmessage',
-      data: setJiraCaseEvent,
+      data: revealEstimationsEvent,
     }
     this.actualWebSocket.next(message as unknown as MessageEvent)
     return this.$webSocket

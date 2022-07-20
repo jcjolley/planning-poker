@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core'
-import {PointValue} from "../../objects/PointValue"
 import {User} from "../../objects/user";
 
 @Component({
