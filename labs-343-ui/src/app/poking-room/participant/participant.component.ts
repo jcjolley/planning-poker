@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core'
 import {User} from "../../objects/user";
+import {PointValue} from "../../objects/PointValue";
 
 @Component({
     selector: 'participant',
@@ -9,4 +10,5 @@ import {User} from "../../objects/user";
 export class ParticipantComponent {
     @Input() user: User;
     @Input() flipped: boolean;
+    // @Input() estimation: number
 }

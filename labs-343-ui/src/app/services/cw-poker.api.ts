@@ -24,6 +24,7 @@ export class CwPokerApi {
   constructor(private readonly httpClient: HttpClient) { }
 
   private readonly actualWebSocket = this.create('wss://a5vtzw7brk.execute-api.us-west-2.amazonaws.com/Prod');
+  // public $webSocket: Observable<Room>
   public $webSocket: Observable<Room> = this.actualWebSocket.asObservable().pipe(
     map(response => {
       return JSON.parse(response.data).data.room as Room
@@ -36,6 +37,22 @@ export class CwPokerApi {
     }),
     shareReplay(1),
   );
+
+  // connect() {
+  //   this.$webSocket = this.actualWebSocket.asObservable().pipe(
+  //       map(response => {
+  //         return JSON.parse(response.data).data.room as Room
+  //       }),
+  //       catchError(err => {
+  //         console.log(err)
+  //         return of({
+  //           roomId: '0',
+  //         } as Room)
+  //       }),
+  //       shareReplay(1),
+  //   )
+  // }
+
   public roomSub: Subscription | null = null;
 
   createRoom(userId: string) {

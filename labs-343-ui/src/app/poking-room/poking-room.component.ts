@@ -1,5 +1,5 @@
-import { Component } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import {Component, OnDestroy, OnInit} from '@angular/core'
+import {ActivatedRoute, Router} from '@angular/router'
 import { Subscription } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
 import { PointValue } from '../objects/PointValue'
@@ -14,7 +14,7 @@ import {FormControl, Validators} from "@angular/forms";
     templateUrl: './poking-room.component.html',
     styleUrls: ['./poking-room.component.scss'],
 })
-export class PokingRoomComponent {
+export class PokingRoomComponent implements OnDestroy {
     //wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod
 
     jiraCaseControl = new FormControl(null, Validators.required)
@@ -41,6 +41,7 @@ export class PokingRoomComponent {
         private readonly route: ActivatedRoute,
         private readonly cwPokerApi: CwPokerApi,
         private readonly userService: UserService,
+        private readonly router: Router,
     ) {
         this.route.params.pipe(
             map(params => params['roomId']),
@@ -59,13 +60,13 @@ export class PokingRoomComponent {
     processResponse(room: Room) {
         console.log(room)
 
-        this.allEstimationsSubmitted = Object.values(room.participants).every(p => p.estimation != null)
+        // this.allEstimationsSubmitted = Object.values(room.participants).every(p => p.estimate != null)
 
         this.users = Object.entries(room.participants).map(
             participant => {
                 return {
                     name: participant[0],
-                    estimate: participant[1].estimation,
+                    estimate: participant[1].estimate,
                 } as User
             }
         )
@@ -73,8 +74,20 @@ export class PokingRoomComponent {
         this.flipped = room.flipped
     }
 
+    // ngOnInit() {
+    //     this.cwPokerApi.connect()
+    //
+    //     this.cwPokerApi.$webSocket.pipe(
+    //         tap(room => (this.processResponse(room))),
+    //     ).subscribe()
+    //
+    //     // if (this.roomId) {
+    //     //     this.processResponse(this.getRoom(this.roomId))
+    //     // }
+    // }
+
     ngOnDestroy() {
-        this.killWebSocket()1000    0
+        this.killWebSocket()
     }
 
     killWebSocket() {
@@ -104,10 +117,25 @@ export class PokingRoomComponent {
     leaveRoom() {
         if (this.roomId && this.thisUser) {
             this.cwPokerApi.leaveRoom(this.roomId, this.thisUser)
+            this.killWebSocket()
+            this.router.navigate(['home-page'])
         }
     }
 
     getRoom(roomId: string) {
-        this.cwPokerApi.getRoom(roomId)
+        return this.cwPokerApi.getRoom(roomId)
     }
+
+    // private loadRoom(room: Room) {
+    //     this.users = Object.entries(room.participants).map(
+    //         participant => {
+    //             return {
+    //                 name: participant[0],
+    //                 estimate: participant[1].estimation,
+    //             } as User
+    //         }
+    //     )
+    //     this.jiraCase = room.jiraCase
+    //     this.flipped = room.flipped
+    // }
 }

@@ -1,16 +1,12 @@
-<div id="grad1" class="container-fluid row">
-    <span>Poking Room</span>
-    <span>{{ roomId }}</span>
-    <div class="col-sm">
-        <div class="row">
-                <label>Jira Case</label>
-                <input class="form-control" type="text">
-        </div>
-    </div>
-    <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
+<div class="align-self-center">
+    <div>{{jiraCase}}</div>
 </div>
 
-<div>{{jiraCase}}</div>
+<div id="grad1" class="container-fluid row">
+<!--    <span>Poking Room</span>-->
+    <span>{{ roomId }}</span>
+    <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
+</div>
 
 <div class="m-3 d-inline">
     <nf-form-control
@@ -27,18 +23,17 @@
         />
     </nf-form-control>
     <button nf-icon-button icon="plus"
-            ngbTooltip="Set"
             (click)="setJiraCase(jiraCaseControl.value)">
     </button>
 </div>
 <button *ngFor="let value of pointValues"
-        class="button"
+        class="estimateButton"
         nf-button="submit"
         [disabled]="jiraCase == null"
         (click)="setEstimation(value)">{{value}}</button>
 <button class="button"
         nf-button="submit"
-        [disabled]="allEstimationsSubmitted"
+        [disabled]="flipped"
         (click)="revealEstimations()">Reveal</button>
 <button class="button"
         nf-button="secondary"

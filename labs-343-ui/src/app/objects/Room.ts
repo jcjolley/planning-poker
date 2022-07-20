@@ -3,7 +3,7 @@ export interface Room {
     participants: {
         [userId: string]: {
             connectionId: string
-            estimation: number | null
+            estimate: number | null
         }
     }
     flipped: boolean
