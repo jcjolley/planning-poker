@@ -1,16 +1,18 @@
 const {broadcast} = require("./broadcast");
-const {getRoom, joinRoom, selectCase, setFlipped, createRoom, setEstimate} = require("./dao");
+const {getRoom, joinRoom, selectCase, setFlipped, createRoom, setEstimate, leaveRoom} = require("./dao");
 
 const EventType = {
     "JOIN_ROOM": "JOIN_ROOM",
     "SELECT_CASE": "SELECT_CASE",
     "SUBMIT_ESTIMATION": "SUBMIT_ESTIMATION",
     "REVEAL_ESTIMATION": "REVEAL_ESTIMATION",
-    "CREATE_ROOM": "CREATE_ROOM"
+    "CREATE_ROOM": "CREATE_ROOM",
+    "LEAVE_ROOM": "LEAVE_ROOM",
+    "GET_ROOM": "GET_ROOM",
 }
 
 /***
- * There are five kinds of events.
+ * The following are the valid events
  * 1. SELECT_CASE
  * {
  *     type: "SELECT_CASE"
@@ -52,6 +54,21 @@ const EventType = {
  *         userId: string
  *     }
  * }
+ * 6. LEAVE_ROOM
+ * {
+ *   type: "LEAVE_ROOM"
+ *   data: {
+ *       roomId: string
+ *       userId: string
+ *   }
+ * }
+ * 7. GET_ROOM
+ * {
+ *   type: "GET_ROOM"
+ *   data: {
+ *       roomId: string
+ *   }
+ * }
  *
  * @param event
  * @param context
@@ -85,6 +102,13 @@ const handleEvent = async (event, context) => {
             roomId = await createRoom(event.data.userId, context.connectionId)
             message = `Created room ${roomId} for user ${event.data.userId} with connectionId ${context.connectionId}`
             break;
+        case EventType.LEAVE_ROOM:
+            console.log(`User ${event.data.userId} is leaving room ${roomId}.`)
+            await leaveRoom(roomId, event.data.userId)
+            message = `User ${event.data.userId} has left room ${roomId}.`
+        case EventType.GET_ROOM:
+            console.log(`Getting room ${roomId}`)
+            message = `Retrieved room ${roomId} current state`
         default:
             console.error(`Unknown event type ${event.type}`)
     }
