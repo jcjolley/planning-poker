@@ -12122,6 +12122,11 @@ ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
+ws@^8.8.1:
+  version "8.8.1"
+  resolved "https://artifactory.cwantools.io/api/npm/npm-group/ws/-/ws-8.8.1.tgz#5dbad0feb7ade8ecc99b830c1d77c913d4955ff0"
+  integrity sha1-XbrQ/ret6OzJm4MMHXfJE9SVX/A=
+
 ws@~7.4.2:
   version "7.4.5"
   resolved "https://artifactory.cwantools.io/api/npm/npm-group/ws/-/ws-7.4.5.tgz#a484dd851e9beb6fdb420027e3885e8ce48986c1"

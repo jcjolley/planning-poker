@@ -52,6 +52,7 @@
     "ts-key-enum": "^2.0.4",
     "tslib": "^2.0.3",
     "uuid": "^3.4.0",
+    "ws": "^8.8.1",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {

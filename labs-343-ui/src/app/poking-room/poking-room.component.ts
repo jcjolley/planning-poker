@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { combineLatest, Subscription } from 'rxjs'
+import { Subscription } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
 import { PointValue } from '../objects/PointValue'
 import { Room } from '../objects/Room'
@@ -17,20 +17,22 @@ export class PokingRoomComponent {
     roomId: string | null = null;
     users: User[] = [{ name: "Monte", estimate: PointValue.ONE }, { name: "Ryan", estimate: PointValue.INFINITY },
     { name: "Ridzky", estimate: PointValue.ONE }, { name: "Jolley", estimate: PointValue.INFINITY }];
-    roomSub: Subscription
+    roomSub: Subscription | null
 
     constructor(
         private readonly route: ActivatedRoute,
         private readonly cwPokerApi: CwPokerApi,
     ) {
-        const $roomId = this.route.params.pipe(
+        this.route.params.pipe(
             map(params => params['roomId']),
             tap(roomId => (this.roomId = roomId)),
-        )
-
-        this.roomSub = combineLatest([$roomId, this.cwPokerApi.$webSocket]).pipe(
-            tap(([roomId, response]) => this.processResponse(response)),
         ).subscribe()
+
+        this.roomSub = this.cwPokerApi.roomSub
+
+        this.cwPokerApi.$webSocket.pipe(
+            tap(room => (this.processResponse(room))),
+        )
     }
 
     processResponse(room: Room) {

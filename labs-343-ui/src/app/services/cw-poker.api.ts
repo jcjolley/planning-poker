@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
+import { Observable, Observer, of, Subject, Subscription } from 'rxjs'
+import { catchError, map } from 'rxjs/operators'
 import { CreateRoomEvent } from '../objects/CreateRoomEvent'
 import { JoinRoomEvent } from '../objects/JoinRoomEvent'
 import { Room } from '../objects/Room'
@@ -17,29 +16,31 @@ export interface ExampleData {
 export class CwPokerApi {
   constructor(private readonly httpClient: HttpClient) { }
 
-  private readonly baseUrl = '/' //
-
-  private readonly actualWebSocket: WebSocketSubject<string> = webSocket({
-    url: 'wss://msza32vqp3.execute-api.us-west-2.amazonaws.com/Prod',
-  });
+  private readonly actualWebSocket = this.create('wss://a5vtzw7brk.execute-api.us-west-2.amazonaws.com/Prod');
   public $webSocket: Observable<Room> = this.actualWebSocket.asObservable().pipe(
-    map(response => JSON.parse(response) as Room),
+    map(response => {
+      return JSON.parse(response.data).data.room as Room
+    }),
+    catchError(err => {
+      console.log(err)
+      return of({
+        roomId: '0',
+      } as Room)
+    }),
   );
-
-  getExampleData(): Observable<ExampleData> {
-    return this.httpClient.get<ExampleData>(this.baseUrl)
-  }
+  public roomSub: Subscription | null = null;
 
   createRoom(userId: string) {
     const createRoomEvent: CreateRoomEvent = {
       type: 'CREATE_ROOM',
       data: { userId, },
     }
-    this.actualWebSocket.next(JSON.stringify({
+    const message = {
       action: 'sendmessage',
       data: createRoomEvent,
-    }))
-    return this.actualWebSocket.asObservable()
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
   }
 
   joinRoom(userId: string, roomId: string) {
@@ -47,10 +48,30 @@ export class CwPokerApi {
       type: 'JOIN_ROOM',
       data: { roomId, userId, }
     }
-    this.actualWebSocket.next(JSON.stringify({
+    const message = {
       action: 'sendmessage',
       data: joinRoomEvent,
-    }))
-    return this.actualWebSocket.asObservable()
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  private create(url: string): Subject<MessageEvent<string>> {
+    let ws = new WebSocket(url)
+
+    let observable = Observable.create((obs: Observer<MessageEvent<string>>) => {
+      ws.onmessage = obs.next.bind(obs)
+      ws.onerror = obs.error.bind(obs)
+      ws.onclose = obs.complete.bind(obs)
+      return ws.close.bind(ws)
+    })
+    let observer = {
+      next: (data: Object) => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(data))
+        }
+      }
+    }
+    return Subject.create(observer, observable)
   }
 }

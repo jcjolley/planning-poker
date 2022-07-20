@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { Router } from '@angular/router'
-import { of } from 'rxjs'
-import { switchMap, tap } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 import { CwPokerApi } from '../services/cw-poker.api'
 import { UserService } from '../services/user-service.service'
 
@@ -23,23 +22,25 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createRoom() {
+  joinRoom(roomId: string) {
     if (this.userService.userName) {
-      this.cwPokerApi.createRoom(this.userService.userName).pipe(
-        switchMap(roomId => this.joinRoom(roomId)),
+      this.cwPokerApi.roomSub = this.cwPokerApi.joinRoom(this.userService.userName, roomId).pipe(
+        tap(() => {
+          this.router.navigate([`poking-room/${roomId}`])
+        }),
       ).subscribe()
     }
   }
 
-  joinRoom(roomId: string) {
-    if (this.userService.userName) {
-      return this.cwPokerApi.joinRoom(this.userService.userName, roomId).pipe(
-        tap(() => {
+  createRoom() {
+    const userName = this.userService.userName
+    if (userName) {
+      this.cwPokerApi.roomSub = this.cwPokerApi.createRoom(userName).pipe(
+        tap(({ roomId }) => {
           this.router.navigate([`poking-room/${roomId}`])
         }),
-      )
+      ).subscribe()
     }
-    return of(null)
   }
 
 }
