@@ -4,3 +4,38 @@
     <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
 </div>
 
+<div>{{jiraCase}}</div>
+
+<div class="m-3 d-inline">
+    <nf-form-control
+            label="JIRA Case"
+            compact="true"
+            for="jiraCaseControl"
+            class="w-50"
+    >
+        <input
+                type="text"
+                id="jiraCaseControl"
+                class="form-control"
+                [formControl]="jiraCaseControl"
+        />
+    </nf-form-control>
+    <button nf-icon-button icon="plus"
+            ngbTooltip="Set"
+            (click)="setJiraCase(jiraCaseControl.value)">
+    </button>
+</div>
+<button *ngFor="let value of pointValues"
+        class="button"
+        nf-button="submit"
+        [disabled]="jiraCase == null"
+        (click)="setEstimation(value)">{{value}}</button>
+<button class="button"
+        nf-button="submit"
+        [disabled]="allEstimationsSubmitted"
+        (click)="revealEstimations()">Reveal</button>
+<button class="button"
+        nf-button="secondary"
+        (click)="leaveRoom()">Leave Room</button>
+
+

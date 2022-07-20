@@ -1,4 +1,4 @@
-export declare const enum PointValue {
+export enum PointValue {
     ZERO = 0,
     ONE = 1,
     TWO = 2,

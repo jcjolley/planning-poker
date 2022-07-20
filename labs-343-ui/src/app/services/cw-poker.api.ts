@@ -9,6 +9,8 @@ import {PointValue} from "../objects/PointValue";
 import {SubmitEstimationEvent} from "../objects/SubmitEstimationEvent";
 import {SetJiraCaseEvent} from "../objects/SetJiraCaseEvent";
 import {RevealEstimationsEvent} from "../objects/RevealEstimationsEvent";
+import {LeaveRoomEvent} from "../objects/LeaveRoomEvent";
+import {GetRoomEvent} from "../objects/GetRoomEvent";
 
 export interface ExampleData {
   exampleField: string
@@ -96,6 +98,32 @@ export class CwPokerApi {
     const message = {
       action: 'sendmessage',
       data: revealEstimationsEvent,
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  leaveRoom(roomId: string, userId: string) {
+    const leaveRoomEvent: LeaveRoomEvent = {
+      type: 'LEAVE_ROOM',
+      data: { roomId, userId, }
+    }
+    const message = {
+      action: 'sendmessage',
+      data: leaveRoomEvent,
+    }
+    this.actualWebSocket.next(message as unknown as MessageEvent)
+    return this.$webSocket
+  }
+
+  getRoom(roomId: string) {
+    const getRoomEvent: GetRoomEvent = {
+      type: 'GET_ROOM',
+      data: { roomId, }
+    }
+    const message = {
+      action: 'sendmessage',
+      data: getRoomEvent,
     }
     this.actualWebSocket.next(message as unknown as MessageEvent)
     return this.$webSocket
