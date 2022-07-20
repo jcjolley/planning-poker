@@ -1,6 +1,12 @@
 <div id="grad1" class="container-fluid row">
     <span>Poking Room</span>
     <span>{{ roomId }}</span>
+    <div class="col-sm">
+        <div class="row">
+                <label>Jira Case</label>
+                <input class="form-control" type="text">
+        </div>
+    </div>
     <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
 </div>
 
