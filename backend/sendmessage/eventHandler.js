@@ -1,5 +1,5 @@
 const {broadcast} = require("./broadcast");
-const {getRoom, joinRoom, selectCase, setFlipped} = require("./dao");
+const {getRoom, joinRoom, selectCase, setFlipped, createRoom, setEstimate} = require("./dao");
 
 const EventType = {
     "JOIN_ROOM": "JOIN_ROOM",
@@ -54,6 +54,7 @@ const EventType = {
  * }
  *
  * @param event
+ * @param context
  */
 const handleEvent = async (event, context) => {
     let message;
@@ -71,7 +72,7 @@ const handleEvent = async (event, context) => {
             break;
         case EventType.SUBMIT_ESTIMATION:
             console.log(`Submitting estimation ${event.data.estimate} to room ${roomId} for user ${event.data.userId}`)
-            setEstimate(event.data.userId, roomId, event.data.estimate)
+            await setEstimate(event.data.userId, roomId, event.data.estimate)
             message = `User ${event.data.userId} estimated ${event.data.estimate} for ${event.data.jiraCase} in room ${roomId}`
             break;
         case EventType.REVEAL_ESTIMATION:
@@ -80,8 +81,9 @@ const handleEvent = async (event, context) => {
             message = `Flipping estimates for room ${roomId} to true`
             break;
         case EventType.CREATE_ROOM:
-            console.log(`Creating a new room.`)
-            roomId = await createRoom(event.data.userId)
+            console.log(`Creating a new room as requested by ${event.data.userId} with connection id ${context.connectionId}.`)
+            roomId = await createRoom(event.data.userId, context.connectionId)
+            message = `Created room ${roomId} for user ${event.data.userId} with connectionId ${context.connectionId}`
             break;
         default:
             console.error(`Unknown event type ${event.type}`)
@@ -90,11 +92,11 @@ const handleEvent = async (event, context) => {
     const room = await getRoom(roomId)
     await broadcast({
             ...context,
-            roomId: roomId
+            roomId
         },
         {
             message,
-            data: { room }
+            data: {room}
         }
     )
 }

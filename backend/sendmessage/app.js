@@ -11,9 +11,11 @@ exports.handler = async websocketMessage => {
   });
   
   try {
+    console.log(`About to handle event! ${JSON.stringify(websocketMessage, null, 2)}`)
     const event = JSON.parse(websocketMessage.body).data;
-    handleEvent(event, { apigwManagementApi, connectionId: websocketMessage.requestContext.connectionId })
+    await handleEvent(event, { apigwManagementApi, connectionId: websocketMessage.requestContext.connectionId })
   } catch (e) {
+    console.error(`ERROR: Failed to handle event: `, e)
     return { statusCode: 500, body: e.stack };
   }
 
