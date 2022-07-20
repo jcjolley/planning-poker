@@ -9,6 +9,5 @@ import {User} from "../../objects/user";
 })
 export class ParticipantComponent {
     @Input() user: User;
-    @Input() isThisUser: boolean;
-
+    @Input() flipped: boolean;
 }
