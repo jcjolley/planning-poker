@@ -1,42 +1,95 @@
-<div class="align-self-center">
-    <div>{{jiraCase}}</div>
+<!--<div class="container">-->
+<!--    <div class="col">-->
+<!--        <span>Room ID: {{ roomId }}</span>-->
+<!--        <div>-->
+<!--            <nf-form-control label="JIRA Case" compact="true" for="jiraCaseControl" class="w-50">-->
+<!--                <input type="text" id="jiraCaseControl" class="form-control" [formControl]="jiraCaseControl"/>-->
+<!--            </nf-form-control>-->
+<!--            <button nf-icon-button icon="plus"-->
+<!--                    (click)="setJiraCase(jiraCaseControl.value)">-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <button class="button"-->
+<!--                nf-button="secondary"-->
+<!--                (click)="leaveRoom()">Leave Room-->
+<!--        </button>-->
+<!--        <button class="button"-->
+<!--                nf-button="submit"-->
+<!--                [disabled]="flipped"-->
+<!--                (click)="revealEstimations()">Reveal Estimates-->
+<!--        </button>-->
+<!--    </div>-->
+
+<!--    <div class="col">-->
+<!--        <div class="row align-self-start">-->
+<!--            {{jiraCase}}-->
+<!--        </div>-->
+
+<!--        <div class="container-fluid row">-->
+<!--            <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>-->
+<!--        </div>-->
+
+<!--        <div class="row align-self-end">-->
+<!--            <button *ngFor="let value of pointValues"-->
+<!--                    class="estimateButton"-->
+<!--                    nf-button="submit"-->
+<!--                    [disabled]="jiraCase == null"-->
+<!--                    (click)="setEstimation(value)">{{value}}</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <div class="col">
+                    <h1 class="section-title">Room ID: {{ roomId }}</h1>
+                    <div class="row">
+                        <nf-form-control label="JIRA Case" compact="true" for="jiraCaseControl"
+                                         class="w-50 d-inline-block">
+                            <input type="text" id="jiraCaseControl" class="form-control"
+                                   [formControl]="jiraCaseControl"/>
+                        </nf-form-control>
+                        <button nf-icon-button icon="plus" class="d-inline-block plus-button"
+                                (click)="setJiraCase(jiraCaseControl.value)">
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button class="button"
+                                nf-button="secondary"
+                                (click)="leaveRoom()">Leave Room
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button class="button row"
+                                nf-button="submit"
+                                [disabled]="flipped"
+                                (click)="revealEstimations()">Reveal Estimates
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col py-3">
+            <div class="col">
+                <h2 class="page-title">
+                    {{jiraCase || "No JIRA case selected"}}
+                </h2>
+
+                <div class="container-fluid row">
+                    <participant *ngFor="let user of users" [user]="user" [flipped]="flipped"
+                                 class="col-sm"></participant>
+                </div>
+
+                <div class="row align-self-end">
+                    <button *ngFor="let value of pointValues"
+                            class="estimateButton"
+                            nf-button="submit"
+                            [disabled]="jiraCase == null"
+                            (click)="setEstimation(value)">{{value}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div id="grad1" class="container-fluid row">
-<!--    <span>Poking Room</span>-->
-    <span>{{ roomId }}</span>
-    <participant *ngFor="let user of users" [user]="user" [flipped]="flipped" class="col-sm"></participant>
-</div>
-
-<div class="m-3 d-inline">
-    <nf-form-control
-            label="JIRA Case"
-            compact="true"
-            for="jiraCaseControl"
-            class="w-50"
-    >
-        <input
-                type="text"
-                id="jiraCaseControl"
-                class="form-control"
-                [formControl]="jiraCaseControl"
-        />
-    </nf-form-control>
-    <button nf-icon-button icon="plus"
-            (click)="setJiraCase(jiraCaseControl.value)">
-    </button>
-</div>
-<button *ngFor="let value of pointValues"
-        class="estimateButton"
-        nf-button="submit"
-        [disabled]="jiraCase == null"
-        (click)="setEstimation(value)">{{value}}</button>
-<button class="button"
-        nf-button="submit"
-        [disabled]="flipped"
-        (click)="revealEstimations()">Reveal</button>
-<button class="button"
-        nf-button="secondary"
-        (click)="leaveRoom()">Leave Room</button>
-
-
