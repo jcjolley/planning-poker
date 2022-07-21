@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core'
-import {ActivatedRoute, Router} from '@angular/router'
+import { Component, OnDestroy } from '@angular/core'
+import { FormControl, Validators } from "@angular/forms"
+import { ActivatedRoute, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
 import { PointValue } from '../objects/PointValue'
 import { Room } from '../objects/Room'
 import { User } from '../objects/user'
 import { CwPokerApi } from '../services/cw-poker.api'
-import {UserService} from "../services/user-service.service";
-import {FormControl, Validators} from "@angular/forms";
+import { UserService } from "../services/user-service.service"
 
 @Component({
     selector: 'poking-room',
@@ -95,7 +95,10 @@ export class PokingRoomComponent implements OnDestroy {
             this.roomSub.unsubscribe()
     }
 
+    estimation: PointValue
+
     setEstimation(estimation: PointValue) {
+        this.estimation = estimation
         if (this.roomId && this.thisUser && this.jiraCase) {
             this.cwPokerApi.setEstimation(this.thisUser, this.roomId, this.jiraCase, estimation)
         }

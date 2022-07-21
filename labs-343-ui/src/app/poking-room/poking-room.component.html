@@ -90,7 +90,8 @@
                     <button *ngFor="let value of pointValues"
                             class="estimateButton"
                             nf-button="submit"
-                            (click)="setEstimation(value)">{{value}}</button>
+                            (click)="setEstimation(value)"
+                            [ngClass]="{'selected': value === estimation}">{{value}}</button>
                 </div>
             </div>
         </div>
