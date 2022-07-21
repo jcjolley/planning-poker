@@ -2,13 +2,13 @@
     <h2 class="page-title">
         CW Planning Poker
     </h2>
-    <div class="m-3 d-inline">
+    <div class="m-3">
         <nf-form-control
             label="Join Room"
             hint="Join a room with an existing code"
             compact="true"
             for="roomControl"
-            class="w-50"
+            class="d-inline-block join-room-control"
         >
             <input
             type="text"
@@ -19,7 +19,8 @@
         </nf-form-control>
         <button nf-icon-button icon="play-circle"
             ngbTooltip="Join Room"
-            (click)="joinRoom(roomControl.value)">
+            (click)="joinRoom(roomControl.value)"
+            class="d-inline-block join-room">
         </button>
     </div>
 
